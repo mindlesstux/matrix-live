@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Matrix Live Liveblogging Demo</title>
+    <link rel="stylesheet" type="text/css" href="https://live.hello-matrix.net/matrix-live.css">
+
+    <style type="text/css">
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+<h1>My Demo Blog Post</h1>
+
+<p>You can embed Matrix Live anywhere on your blog. You can have text before and after the component, sidebars, etc. Just create a new blog post and add the matrix-live integration tags (see <a href="https://live.hello-matrix.net/">README</a>).</p>
+
+<div style="float:right; background-color: #b0befc; width: 200px; height: 500px; padding: 15px; ">
+    <h2 style="font-size: 14px;">My Blog's Sidebar</h2>
+
+    <ul>
+        <li>About</li>
+        <li>Archives</li>
+        <li>My Attic</li>
+    </ul>
+
+    <h3 style="font-size: 14px;">Blog Roll</h3>
+    <ul>
+        <li>Awesome Site</li>
+        <li>Good Stuff</li>
+        <li>We Like It</li>
+    </ul>
+
+    <p style="font-size: smaller;">Created using my favorite blogging application</p>
+</div>
+
+<matrix-live homeserver="https://matrix.org"
+             room="!cURbafjkfsMDVwdRDQ:matrix.org"
+             initial-load="60"></matrix-live>
+
+<p>As already stated above, you can also continue your blog post after the Matrix Live section. Note that the Matrix Live above is using the default style. You can change its look and feel by replacing the default matrix-live.css with a customized stylesheet.</p>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="https://live.hello-matrix.net/matrix-live-min.js"></script>
+
+</body>
+</html>
+

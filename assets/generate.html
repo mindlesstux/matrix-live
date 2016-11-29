@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Matrix Live - Generate Link and Code</title>
+
+    <style type="text/css">
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            font-size: large;
+            margin-top: 25px;
+            margin-bottom: 2px;
+        }
+
+        h2 + p {
+            margin-top: 2px;
+        }
+
+        .generate-back {
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+
+            font-size: smaller;
+            text-align: right;
+        }
+
+        .generate-back a {
+            text-decoration: none;
+            color: #918e91;
+        }
+
+        .generate-back a:hover {
+            text-decoration: underline;
+        }
+
+
+        .generate-main {
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .generate-form label {
+            font-weight: bold;
+        }
+
+        .generate-form input:invalid {
+            border-style: solid;
+            border-width: 1px;
+            border-color: #ff0000;
+        }
+
+        .generate-form input:valid + .generate-field-error {
+            display: none;
+        }
+
+        .generate-form-table td {
+            vertical-align: top;
+        }
+
+        .generate-field-error {
+            color: #ff0000;
+            font-size: small;
+            margin-top: 3px;
+            margin-bottom: 3px;
+        }
+
+        .generate-form-description {
+            font-size: small;
+            padding-bottom: 30px;
+        }
+
+        .generate-hidden {
+            display: none;
+        }
+
+        .generate-progress li {
+            margin: 5px;
+            font-size: small;
+        }
+
+        .generate-progress-error {
+            color: #ff0000;
+            font-weight: bold;
+        }
+        .generate-progress-success {
+            color: #005e00;
+            font-weight: bold;
+        }
+
+        .generate-link {
+            text-align: center;
+        }
+
+
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+
+    <script src="matrix-live-generate-min.js"></script>
+
+</head>
+<body>
+
+<div class="generate-back"><a href="javascript:history.back()">&lt; Back</a></div>
+
+<h1>Matrix Live - Generate Link and Embedding Code</h1>
+
+<div class="generate-main">
+ <p>Matrix Live is a <a href="https://en.wikipedia.org/wiki/Liveblogging">liveblogging</a> tool built on the <a href="https://matrix.org/">Matrix</a> platform. This form allows you to specify the homeserver and room you want to use for your liveblogging. This tool will test whether they are configured correctly for use with Matrix Live and will generate the URL or embed code you can use to link to or include Matrix Live on your blog. If you have any additional questions, refer to the <a href="/">README</a> for details.</p>
+
+ <p>For this generator to work, you already need to have chosen a suitable Matrix homeserver to use (that needs to support HTTPS and guest access). You also need to have set-up a room in Matrix (that has Room Preview enabled, which means its history needs to be publicly viewable) where you will liveblog. You can use the great <a href="https://riot.im/">Riot</a> client for Matrix to get started.</p>
+
+ <form name="generator" class="generate-form" action="javascript:generateMatrixLive();">
+     <table class="generate-form-table">
+         <tr>
+             <td><label for="homeserver">Matrix Homeserver to connect to:</label></td>
+             <td width="250px"><input type="text" id="homeserver" name="homeserver" value="matrix.org" size="30" placeholder="matrix.org" pattern=" *[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(:[0-9]{1,5})? *$" title="Valid homeserver domain" required>
+                 <div id="homeserver-error" class="generate-field-error">This is not a valid domain. Please omit <code>https://</code> and trailing slashes.</div>
+             </td>
+         </tr>
+         <tr>
+             <td colspan="2" class="generate-form-description">Please provide the domain name of the homeserver you want to connect to, without the <code>https://</code> or trailing slash. For example, if you connect to your homeserver in Riot using <code>https://matrix.org/</code>, enter <code>matrix.org</code> in the field. The specified homeserver needs to support HTTPS connections (the generator does not support generating code for unencrypted connections) and needs to allow guest access.</td>
+         </tr>
+
+         <tr>
+             <td><label for="room">Technical room ID of room to show:</label></td>
+             <td width="250px"><input type="text" id="room" name="room" size="30" value="!cURbafjkfsMDVwdRDQ:matrix.org" placeholder="!cURbafjkfsMDVwdRDQ:matrix.org" pattern=" *![a-zA-Z]+:[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,} *$" title="Valid Matrix room ID" required>
+                 <div id="room-error" class="generate-field-error">You need to enter the technical room ID of the room, not an alias.</div>
+             </td>
+         </tr>
+         <tr>
+             <td colspan="2" class="generate-form-description">Please provide the technical room ID of the room you want to use for liveblogging. The technical room ID can be accessed in Riot Web by accessing the little green cog wheel of the room (top right). The internal room ID is given at the very bottom of that view under &quot;Advanced&quot;. It always starts with an exclamation mark (<code>!</code>) and ends with a colon followed by the home server it was created on, e.g. <code>!cURbafjkfsMDVwdRDQ:matrix.org</code>. The specified room needs to allow Room Previews, which means that the &quot;Who can read history?&quot; option on the same Riot pane needs to be set to &quot;Anyone&quot;. We also recommend that you keep the room as invite-only (or limit messages to sufficiently high power levels) as otherwise strangers can join your room and post into your liveblog.</td>
+         </tr>
+
+         <tr>
+             <td><label for="page_title">Title for Matrix Live page:</label></td>
+             <td width="250px"><input type="text" id="page_title" name="page_title" value="" size="30" placeholder="Matrix Live"></td>
+         </tr>
+         <tr>
+             <td colspan="2" class="generate-form-description">Only relevant for the direct link. You can specify a title here that will be displayed on the page the link we generate will point to. If you leave it empty, it will default to &quot;Matrix Live&quot;. Note that this has no effect on the embed code, which does not display a title.</td>
+         </tr>
+
+         <tr>
+             <td><label for="initial_load">Number of events to load when opening:</label></td>
+             <td width="250px"><input type="text" id="initial_load" name="initial_load" value="60" placeholder="60" pattern="[0-9]+" size="4">
+                 <div id="initial_load-error" class="generate-field-error">Please enter a number or leave the field empty to use the default value of 60.</div>
+             </td>
+         </tr>
+         <tr>
+             <td colspan="2" class="generate-form-description">Only relevant for the embed code. This number specified how many Matrix events should be retrieved from the room when a user opens the liveblogging page, i.e. how far "back" the view should be. Afterwards, new events will be added to the page irrespective of this number as long as the user stays on the page. It defaults to 60 if left empty. Note that this does not have to exactly correspond to the number of news items that will be displayed: It specifies how many technical Matrix events will be retrieved, not all of which will be displayable news. Thus, you should set it to a number that is a bit higher than the number of actual elements you want to display. The link version always loads the default 60 events.</td>
+         </tr>
+
+         <tr>
+             <td>(Advanced) Load jQuery prior to Matrix Live:</td>
+             <td width="250px"><input type="radio" id="jquery-yes" name="jquery" value="yes" checked> <label for="jquery-yes">Yes</label> &nbsp; &nbsp; &nbsp; <input type="radio" id="jquery-no" name="jquery" value="no"> <label for="jquery-no">No</label>
+             </td>
+         </tr>
+         <tr>
+             <td colspan="2" class="generate-form-description">Only relevant for the embed code. Leave at default value of &quot;Yes&quot; if unsure. Specifies whether jQuery should be loaded prior to Matrix Live. If (and only if) you already load jQuery on the site you plan to embed Matrix Live, you do not need to load it again and can set this option to &quot;No&quot;.</td>
+         </tr>
+
+         <tr class="generate-form-submit-row">
+             <td colspan="2"><input type="submit" id="generate-button" value="Test Connection and Generate Link plus Embed Code"></td>
+         </tr>
+     </table>
+ </form>
+
+ <ul class="generate-progress"></ul>
+
+ <div class="generate-results generate-hidden">
+     <h2>Method 1: Direct Link</h2>
+     <p>You can use the following link to link directly to the liveblogging version of your room. Just right-click and select &quot;Copy Link Address&quot; to copy the link to the clipboard and from there into your favorite blogging tool:</p>
+
+     <p class="generate-link"></p>
+
+     <h2>Method 2: Embed Code</h2>
+     <p>Alternatively, if you want more control, you can also embed the liveblog into an existing page or blog post on your website. Just open the HTML for the page and place the following code at the place where you want the liveblog to appear:</p>
+     <pre class="generate-code"></pre>
+
+     <p>In addition, you also need to place the following HTML code somewhere on the page, preferably at the very end (as this will make sure that the JavaScript loads last and does not delay your page rendering):</p>
+     <pre class="generate-code-bottom"></pre>
+
+     <p>Finally, you need to embed the CSS style sheet that determines how the liveblog will look like. This part needs to go into the <code>&lt;head&gt;</code> section of your site:</p>
+
+     <pre class="generate-code-css"></pre>
+
+     <p>If you do not like the look and feel of the liveblog, you can make a copy of this CSS file, modify it to your taste and replace the link with a reference to your modified version. You can also disable the Matrix Live footer by adding the attribute <code>show-footer="false"</code> to the <code>&lt;matrix-live&gt;</code> tag above.</p>
+
+     <h2>All done!</h2>
+     <p>That's it. You are all set. You can now join your room using <a href="https://riot.im/">Riot</a> or another Matrix client and post text or pictures, which will appear as you send them for your users in your new liveblog environment.</p>
+ </div>
+</div>
+
+</body>
+</html>

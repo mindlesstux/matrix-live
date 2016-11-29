@@ -1,0 +1,19 @@
+{
+  "name": "matrix-live",
+  "private": true,
+  "version": "0.1.1",
+  "description": "Matrix Live",
+  "repository": "https://gitlab.com/argit/matrix-live",
+  "license": "Apache-2.0",
+  "scripts": {
+    "prestart": "npm install",
+    "pretest": "npm install",
+    "build": "rm -Rf dist/ && mkdir dist && ./node_modules/uglify-js/bin/uglifyjs node_modules/marked/lib/marked.js src/matrix-live.js -c --lint -o dist/matrix-live-min.js && ./node_modules/uglify-js/bin/uglifyjs src/matrix-live-generate.js -c --lint -o dist/matrix-live-generate-min.js && cp -r assets/* dist && cd dist/ && zip -r matrix-live.zip *"
+  },
+  "devDependencies": {
+    "uglify-js": "^2.7.4"
+  },
+  "dependencies": {
+    "marked": "^0.3.6"
+  }
+}

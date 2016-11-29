@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<title>Matrix Live - Liveblogging based on Matrix</title>
+	</head>
+<body>
+<h1>Matrix Live - Liveblogging based on Matrix</h1>
+
+<p><a href="https://en.wikipedia.org/wiki/Liveblogging">Liveblogging</a> is reporting about events -- with text and pictures -- as they happen. <a href="https://www.matrix.org/">Matrix</a> is a new, powerful messaging platform for instant communication. We believe the two belong together. That&#39;s why we have created Matrix Live.</p>
+
+<p>With Matrix Live, you can create a room in Matrix, and while you use your favorite Matrix client (such as <a href="https://riot.im/">Riot</a>) to write text and post pictures in this room, your users will see them appear live on the web - either here or right on your blog or website.</p>
+
+<p>We believe this provides the optimal combination. By building on an established messenger, a few interesting features come &quot;for free&quot;:</p>
+
+<ul>
+	<li>You can post updates on the road. <a href="https://riot.im/">Riot</a> offers apps for both iOS (iPhone and iPad) and Android that let you quickly write updates and post pictures.</li>
+	<li>Multiple team members can write on the same liveblog. Just invite them to your room.</li>
+	<li>Matrix Live (and Riot) supports <a href="https://daringfireball.net/projects/markdown/basics">Markdown</a>, so you can quickly format text, lists etc.</li>
+</ul>
+
+<h2>Try it</h2>
+
+<p>How does it look like in practice? You can try it out. We have prepared two demo versions for you, which are both fully functional Matrix Live implementations:</p>
+
+<ul>
+	<li>Our <a href="https://live.hello-matrix.net/live.html#matrix.hello-matrix.net/!sBcCeweWXOjVViEiIY%3Ahello-matrix.net/Hello%2C%20Matrix!">first demo</a> shows Matrix Live in its link version, when you choose not to embed it into your own site. It displays a demo liveblog. This demo gives you a good impression on how pictures and text look like in Matrix Live. However, we cannot liveblog all the time, so you probably will not be able to observe the real-time behavior when new items are posted.</li>
+	<li>That&#39;s why our <a href="https://live.hello-matrix.net/demo2.html">second demo</a> uses Matrix Live to show the public Matrix room #matrix:matrix.org. We have chosen this room because it is relatively active, so you can observe how updates happen in real-time. However, this is a chat room and not a liveblog, so the content itself will not make much sense in Matrix Live. Also, due to the large number of users in this room (contrary to a liveblogging room, where only you and your blogging team will join) initial loading takes quite a long time. This demo also demonstrates that you can embed the Matrix Live liveblog into your own website.</li>
+</ul>
+
+<p>Note that they are using the standard layout of Matrix Live. You can customize our CSS style sheet if you need a different look.</p>
+
+<h2>Use it</h2>
+
+<p>How do you get your own liveblog using Matrix Live? Start by setting up the Matrix room you want to use, afterwards generate the link or embed code to Matrix Live, include it on your website / blog and you are ready to go.</p>
+
+<h3>Step 1: Set-up Matrix room</h3>
+
+<p>If you are not yet a Matrix user, head over to <a href="https://riot.im/">Riot</a> and use either the web or one of the mobile clients to register an account in the Matrix ecosystem. Within Riot (screenshots are from Riot Web) you can then create a new room to liveblog in by clicking on the “Plus” sign. You can assign a room name and should end up with an empty room as in the screenshot below.</p>
+
+<p>Afterwards, you need to set this room to publicly viewable (such that Matrix Live and your visitors can access it) and obtain its internal ID, which is used to access the room in Matrix Live:</p>
+
+<figure><img src="pictures/set-up-room-1.png" alt="Access settings for the room"/><figcaption>Access settings for the room</figcaption></figure>
+
+<p>In the room settings, you can set the room to world viewable but keep it as invite-only (to avoid others posting on your live blog):</p>
+
+<figure><img src="pictures/set-up-room-2.png" alt="Set room to readable by anyone, then scroll down"/><figcaption>Set room to readable by anyone, then scroll down</figcaption></figure>
+
+<p>Scroll down to find your internal room ID:</p>
+
+<figure><img src="pictures/set-up-room-3.png" alt="Write down your internal room ID and save your changes"/><figcaption>Write down your internal room ID and save your changes</figcaption></figure>
+
+<p>If everything has saved correctly, Riot should inform you that your room history is now viewable by anyone:</p>
+
+<figure><img src="pictures/set-up-room-4.png" alt="Alex made future room history visible to anyone."/><figcaption>Alex made future room history visible to anyone.</figcaption></figure>
+
+<p>Using the internal room ID, you are now ready to generate your Matrix Live link or embed code.</p>
+
+<h3>Step 2: Generate link or embed code</h3>
+
+<p>Just head over to the <a href="https://live.hello-matrix.net/generate.html">Matrix Live Generator</a>. Fill in the home server and room ID you want to use and the other optional fields and click on “Generate”. The tool will check whether the homeserver and room ID are valid and correctly configured (you need to use a homeserver that allows guest access and your room needs to be configured as world-readable as per the above). If everything checks out, you will receive two options to use Matrix Live:</p>
+
+<ol>
+	<li>A link that you can link to and that will display your liveblog on a separate page.</li>
+	<li>Pieces of HTML code that you can embed in your website or blog post and which will make your live blog appear within your website at the point where you insert the <code>&lt;hello-matrix&gt;</code> tag.</li>
+</ol>
+
+<h3>Step 3: Use on your website or link to from social media</h3>
+
+<p>You can use either the link or the embed code to make your liveblog go “on air”. As soon as you have promoted the link or embedded the embed code, you already to start liveblogging!</p>
+
+<h3>Step 4: Start liveblogging</h3>
+
+<p>When a visitor visits your liveblog, he or she will see the latest entries you made (the newest will be at the top; by default a bit less than sixty are displayed, see the generator for details) immediately. Afterwards, the connection remains active as long as the visitor remains on the site and any new stuff you write or pictures you send to your room in Matrix will be pushed to the visitor and displayed at the top of the liveblog.</p>
+
+<p>So just go ahead, grab the Matrix client of your choice (we recommend <a href="https://riot.im/">Riot</a>) and start liveblogging! If you have invited other users into your room, they can also write and upload pictures, those will also be displayed to your readers (so be careful who you let into your room).</p>
+
+<p>You can use <a href="https://daringfireball.net/projects/markdown/basics">Markdown</a> to format text in your messages. Note that you cannot use syntax for inline pictures from other sites, however, due to security restrictions in the browser. You can, however, upload pictures directly using your Matrix client. If you upload pictures, a thumbnail will be displayed in the live blog. If the picture is larger than the thumbnail size, a hyperlink will allow the user to access the full-size picture.</p>
+
+<p>If you have made a mistake and want to remove a message you have written, you can do so with any Matrix client that supports redactions, as long as you are administrator in your room (you will be if you have created the room yourself as described above). In Vector Web, click on the three dots next to the message you want to remove and then on “Redact”:</p>
+
+<figure><img src="pictures/redact.png" alt="Click on the &quot;three dots&quot; and then on &quot;Redact&quot;"/><figcaption>Click on the &quot;three dots&quot; and then on &quot;Redact&quot;</figcaption></figure>
+
+<p>The message will disappear for users who are receiving the live stream and will not be displayed for any new visitors accessing the liveblog. As Matrix is a messaging application, you cannot edit existing messages or backdate new ones.</p>
+
+<h3>Step 5: That&#39;s it - tell others</h3>
+
+<p>Was your liveblog a success? Great! Feel free to spread the word! Did anything not work out as expected? Let us know: Send us an email at <a href="hello@hello-matrix.net">hello@hello-matrix.net</a> or join <a href="https://matrix.to/#/#matrix-live:matrix.org">#matrix-live:matrix.org</a> to discuss Matrix Live.</p>
+
+<h2>Roll your own</h2>
+
+<p>You don’t want to embed some stranger’s JavaScript on your own page? You want to modify Matrix Live to support some specific feature for your blog? No problem. Matrix Live is an open source project on <a href="https://gitlab.com/argit/matrix-live">Gitlab</a>. You can either download <a href="https://live.hello-matrix.net/matrix-live.zip">Matrix Live in a zip file</a>, upload its contents to your web host and - voilà - you now have your own <code>generate.html</code> script that will generate links to your local Matrix Live copy.</p>
+
+<p>Or (if you want to dive into the code) you can roll your own Matrix Live by cloning our Gitlab repository, downloading the required modules (requires installed <code>npm</code>) and building the minified version using our build script:</p>
+
+<pre><code>git clone https://gitlab.com/argit/matrix-live
+npm install
+npm run-script build  
+</code></pre>
+
+<p>The build will be stored in the <code>dist/</code> folder and should be equivalent to the zip file you can download from our website.</p>
+
+<h2>Frequently Asked Questions</h2>
+
+<p>Any questions not answered here? Send them along via email to <a href="hello@hello-matrix.net">hello@hello-matrix.net</a> or join <a href="https://matrix.to/#/#matrix-live:matrix.org">#matrix-live:matrix.org</a> to discuss Matrix Live.</p>
+
+<h3>Why use Matrix Live?</h3>
+
+<p>It’s free, very easy to use and by building on Matrix you get the stability and features of Matrix as a communications platform for free. There are a lot of liveblogging services out there, but they are often overkill for a simple, short liveblogging session. Also, Matrix Live is open source, so you don’t have to rely on us maintaining our version but you can just use your own.</p>
+
+<h3>Can I delete or edit messages if I have made a mistake?</h3>
+
+<p>Yes, you can delete (or “redact”) messages if you are an administrator in the room you liveblog in (which you should be, as you should have created a new room). See above under “Step 4”. You cannot edit (or backdate) messages.</p>
+
+<h3>Does Matrix Live work with end-to-end encrypted rooms?</h3>
+
+<p>No. The whole point of Matrix Live is to make the content of your room publicly available in a nicely formatted and auto-updating way. This does not correspond to secure end-to-end communication, thus Matrix Live cannot work if a room has end-to-end encryption enabled. Your homeserver should support HTTPS encryption, however, so your visitors will retrieve your liveblog over an encrypted channel.</p>
+
+<h2>Roadmap / What’s missing</h2>
+
+<p>Currently, the following features are planned for future updates:</p>
+
+<ul>
+	<li>Displaying download links for uploaded files other than pictures (at the moment those messages are ignored)</li>
+	<li>Internationalisation, i.e. providing the interface in other languages (if you want to help with a translation into your native language, let us know)</li>
+	<li>Enabling simple design changes (such as base colour) with configuration options instead of requiring to modify the CSS</li>
+</ul>
+
+</body>
+</html>
+

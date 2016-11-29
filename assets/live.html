@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Matrix Live</title>
+    <link rel="stylesheet" type="text/css" href="matrix-live.css">
+
+    <style type="text/css">
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .direct-live-back {
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+
+            font-size: smaller;
+            text-align: right;
+        }
+
+        .direct-live-back a {
+            text-decoration: none;
+            color: #918e91;
+        }
+
+        .direct-live-back a:hover {
+            text-decoration: underline;
+        }
+
+        .direct-live-error {
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+
+            border-color: #ff686e;
+            border-style: solid;
+            border-width: 3px;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .direct-live-hidden {
+            display: none;
+        }
+
+        .direct-live-area {
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+
+    </style>
+
+</head>
+<body>
+<div class="direct-live-back"><a href="javascript:history.back()">&lt; Back</a></div>
+
+<h1>Loading...</h1>
+
+<div class="direct-live-error direct-live-hidden">You need to specify the homeserver and room ID to be used by Matrix Live. Please refer to the <a href="/">documentation</a> for details.</div>
+
+<div class="direct-live-area"></div>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $( document ).ready(function() {
+        var configMatch, homeserver, room, title;
+        if(configMatch = decodeURIComponent(window.location.hash).match(/^#([a-zA-Z0-9\.\-]+(:[0-9]{1,5})?)\/([a-zA-Z0-9!:\.\-_=%$+]+)(\/.+)?$/)) {
+            homeserver = configMatch[1];
+            room = configMatch[3];
+            title = (configMatch[4] !== undefined && configMatch[4].substr(1) !== '' ? configMatch[4].substr(1) : 'Matrix Live');
+
+            $('h1').text(title);
+            $('.direct-live-area').html('<matrix-live homeserver="https://' + homeserver + '/" room="' + room + '">');
+
+        } else {
+            $('h1').text('Matrix Live');
+            $('.direct-live-error').removeClass('direct-live-hidden');
+        }
+
+        // When the hash changes, we force a reload (easiest way to make sure the changes get incorporated)
+        $( window ).on('hashchange', function() {
+          console.log('Hash part has changed. Reload...');
+          window.location.reload(true);
+        });
+    });
+</script>
+
+<script src="matrix-live-min.js"></script>
+</body>
+</html>
+
