@@ -129,6 +129,9 @@ var testAccessToken = function(config) {
     $.ajax({
       url: config.homeserver + '/_matrix/client/r0/register?kind=guest',
       type: 'POST',
+      contentType: 'application/json',
+      data: '{ "initial_device_display_name": "Matrix Live Reader" }',
+      processData: false,
       dataType : 'json'
     }).then(
       function(res) {
