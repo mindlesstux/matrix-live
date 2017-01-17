@@ -77,7 +77,14 @@
 
 <p>So just go ahead, grab the Matrix client of your choice (we recommend <a href="https://riot.im/">Riot</a>) and start liveblogging! If you have invited other users into your room, they can also write and upload pictures, those will also be displayed to your readers (so be careful who you let into your room).</p>
 
-<p>You can use <a href="https://daringfireball.net/projects/markdown/basics">Markdown</a> to format text in your messages. Note that you cannot use syntax for inline pictures from other sites, however, due to security restrictions in the browser. You can, however, upload pictures directly using your Matrix client. If you upload pictures, a thumbnail will be displayed in the live blog. If the picture is larger than the thumbnail size, a hyperlink will allow the user to access the full-size picture.</p>
+<p>You can use <a href="https://daringfireball.net/projects/markdown/basics">Markdown</a> to format text in your messages. If you want to embed videos, Matrix Live supports YouTube, Vimeo and DailyMotion. You can add the link to the video’s page using Markdown’s syntax for inline images:</p>
+
+<pre><code>![Video](https://vimeo.com/161820611)
+</code></pre>
+
+<p>Matrix Live will recognise that this is a reference to a video site and will embed this site’s inline player for you.</p>
+
+<p>You can also upload pictures, videos and other files directly using your Matrix client. If you upload pictures, a thumbnail will be displayed in the live blog. If the picture is larger than the thumbnail size, a hyperlink will allow the user to access the full-size picture. For videos, a HTML5 video player will be displayed. For other files, a generic download link will be generated.</p>
 
 <p>If you have made a mistake and want to remove a message you have written, you can do so with any Matrix client that supports redactions, as long as you are administrator in your room (you will be if you have created the room yourself as described above). In Vector Web, click on the three dots next to the message you want to remove and then on “Redact”:</p>
 
@@ -123,7 +130,6 @@ npm run-script build
 <p>Currently, the following features are planned for future updates:</p>
 
 <ul>
-	<li>Displaying download links for uploaded files other than pictures (at the moment those messages are ignored)</li>
 	<li>Internationalisation, i.e. providing the interface in other languages (if you want to help with a translation into your native language, let us know)</li>
 	<li>Enabling simple design changes (such as base colour) with configuration options instead of requiring to modify the CSS</li>
 </ul>

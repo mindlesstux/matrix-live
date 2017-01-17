@@ -60,6 +60,10 @@
   margin-bottom: 5px;
 }
 
+.matrix-live-entry-body img {
+  max-width: 100%;
+}
+
 
 .matrix-live-entry-inline-viewer {
   text-align: center;
