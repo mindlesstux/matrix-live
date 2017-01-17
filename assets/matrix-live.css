@@ -73,6 +73,32 @@
 }
 
 
+.matrix-live-entry-video {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.matrix-live-entry-video video {
+  max-width: 100%;
+}
+
+
+.matrix-live-entry-file {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+
+.matrix-live-entry-file svg {
+  width: 64px;
+  max-width: 20%;
+  margin-right: 16px;
+  vertical-align: middle;
+}
+
+
 .matrix-live-entry-author {
   font-size: small;
   color: #ffffff;
