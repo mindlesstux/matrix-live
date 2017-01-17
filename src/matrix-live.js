@@ -12,6 +12,29 @@ $( document ).ready(function() {
   /* HELPER FUNCTIONS FOR MATRIX AND GENERAL HELPERS                           */
   /*****************************************************************************/
 
+  // Format bytes depending on their magnitude
+  var formatBytes = function(bytes) {
+    if(bytes > 1000000000) {
+      // More than 1 gigabyte => display as GB
+      // (yes, we use the new 1000 here instead of 1024 as this seems to be the consensus by now)
+      return (Math.round(bytes / 100000000)/10).toLocaleString() + ' GB';
+
+    } else if(bytes > 1000000) {
+      // More than 1 megabyte => display as MB
+      return (Math.round(bytes / 100000)/10).toLocaleString() + ' MB';
+
+    } else if(bytes > 1000) {
+      // More than 1 kilobyte => display as KB
+      return (Math.round(bytes / 100)/10).toLocaleString() + ' KB';
+
+    } else {
+      // Display as bytes
+      return bytes.toLocaleString() + ' bytes';
+
+    }
+
+  };
+
   // Room members hash
   var roomMembers = {};
 
@@ -57,42 +80,39 @@ $( document ).ready(function() {
 
   // Post update
   var processEvent = function(config, matrixEvent, mLiveBody, isUpdate) {
-    var newEntry, match, match2, myServerName, myMediaId, thumbnailServerName, thumbnailMediaId, linkNeeded;
+    var newEntry, match, match2, myServerName, myMediaId, thumbnailServerName, thumbnailMediaId, linkNeeded, messageHtml;
 
     if(matrixEvent.type === 'm.room.message' && matrixEvent.content && matrixEvent.content.msgtype === 'm.text') {
       // Ok, display message.
+      messageHtml = marked(matrixEvent.content.body, { sanitize: true });
+
+      // We replace YouTube, Vimeo and DailyMotion videos with their embed codes
+      messageHtml = messageHtml.replace(/<img [^>]*src=("[^"]*"|'[^']*')[^>]*>/i, function(fullTag, srcAttr) {
+        // Is this image referencing a video site?
+        if(match = srcAttr.substr(1).match(/^https?:\/\/(www\.)?youtube\.com\/watch\?v=([a-zA-Z0-9_]+)/i)) {
+          // YouTube
+          return '<div class="matrix-live-entry-inline-viewer"><iframe width="480" height="270" src="https://www.youtube.com/embed/' + match[2] + '" frameborder="0" allowfullscreen></iframe></div>';
+
+        } else if(match = srcAttr.substr(1).match(/^https?:\/\/(www\.)?vimeo\.com\/([0-9]+)/i)) {
+          // Vimeo
+          return '<div class="matrix-live-entry-inline-viewer"><iframe src="https://player.vimeo.com/video/' + match[2] + '?portrait=0" width="480" height="270" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>';
+
+        } else if(match = srcAttr.substr(1).match(/^https?:\/\/([a-z]+\.)?dailymotion\.com\/video\/([a-z0-9]+)_/i)) {
+          // DailyMotion
+          return '<div class="matrix-live-entry-inline-viewer"><iframe frameborder="0" width="480" height="270" src="https://www.dailymotion.com/embed/video/' + match[2] + '" allowfullscreen></iframe></div>';
+        }
+
+        // No video link, so we return the original image tag
+        return fullTag;
+      });
+
       newEntry = $(
         '<div class="matrix-live-entry' + (isUpdate ? ' matrix-live-new' : '') + '" matrix-event-id="' + matrixEvent.event_id.replace(/[^a-zA-Z0-9:\-\._!$%+=]/g, '') + '">' +
-          '<div class="matrix-live-entry-body">' + marked(matrixEvent.content.body, { sanitize: true }) + '</div>' +
+          '<div class="matrix-live-entry-body">' + messageHtml + '</div>' +
           '<div class="matrix-live-entry-author"></div>' +
           '<div class="matrix-live-entry-time">' + (new Date(matrixEvent.origin_server_ts)).toLocaleTimeString() + '</div>' +
         '</div>'
       );
-
-      // We replace YouTube, Vimeo and DailyMotion videos with their embed codes
-      newEntry.children('img').each(function() {
-        var thisImg = $(this);
-
-        if(thisImg.attr("alt").match(/^video$/i)) {
-          // Video - what is this for?
-          if(match = thisImg.attr("src").match(/^https?:\/\/(www\.)?youtube\.com\/watch?v=([a-zA-Z0-9_]+)/i)) {
-            // YouTube
-            thisImg.html('<iframe width="480" height="270" src="https://www.youtube.com/embed/' + match[2] + '" frameborder="0" allowfullscreen></iframe>');
-
-          } else if(match = thisImg.attr("src").match(/^https?:\/\/(www\.)?vimeo\.com\/([0-9]+)/i)) {
-            // Vimeo
-            thisImg.html('<iframe src="https://player.vimeo.com/video/' + match[2] + '?portrait=0" width="480" height="270" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>');
-
-          } else if(match = thisImg.attr("src").match(/^https?:\/\/([a-z]+\.)?dailymotion\.com\/video\/([a-z0-9]+)_/i)) {
-            // DailyMotion
-            thisImg.html('<iframe frameborder="0" width="480" height="270" src="//www.dailymotion.com/embed/video/' + match[2] + '" allowfullscreen></iframe>');
-
-          }
-        }
-      });
-
-      // TODO - CONTINUE HERE
-
 
       // We set author using text method to avoid XSS
       newEntry.children('.matrix-live-entry-author').text(roomMembers[matrixEvent.sender] === undefined ? matrixEvent.sender : roomMembers[matrixEvent.sender]);
@@ -147,8 +167,8 @@ $( document ).ready(function() {
       newEntry = $(
         '<div class="matrix-live-entry' + (isUpdate ? ' matrix-live-new' : '') + '" matrix-event-id="' + matrixEvent.event_id.replace(/[^a-zA-Z0-9:\-\._!$%+=]/g, '') + '">' +
         '<div class="matrix-live-entry-video">' +
-          '<video src="' + config.homeserver + '/_matrix/media/r0/thumbnail/' + myServerName + '/' + myMediaId + '" poster="' + config.homeserver + '/_matrix/media/r0/thumbnail/' + thumbnailServerName + '/' + thumbnailMediaId + '" controls>' +
-          ' [ <a href="' + config.homeserver + '/_matrix/media/r0/thumbnail/' + myServerName + '/' + myMediaId + '" target="_blank">Play Video</a> ]' +
+          '<video src="' + config.homeserver + '/_matrix/media/r0/download/' + myServerName + '/' + myMediaId + '" poster="' + config.homeserver + '/_matrix/media/r0/thumbnail/' + thumbnailServerName + '/' + thumbnailMediaId + '" controls>' +
+          ' [ <a href="' + config.homeserver + '/_matrix/media/r0/download/' + myServerName + '/' + myMediaId + '" target="_blank">Play Video</a> ]' +
           '</video>' +
         '</div>' +
         '<div class="matrix-live-entry-author"></div>' +
@@ -176,7 +196,7 @@ $( document ).ready(function() {
         '<div class="matrix-live-entry' + (isUpdate ? ' matrix-live-new' : '') + '" matrix-event-id="' + matrixEvent.event_id.replace(/[^a-zA-Z0-9:\-\._!$%+=]/g, '') + '">' +
         '<div class="matrix-live-entry-file">' +
         '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 120 120" xml:space="preserve"> <polygon points="48.732,69.783 91.039,27.476 102.778,39.215 60.472,81.527 "/><rect x="50.999" y="3.424" width="19.055" height="60.21"/> <polygon points="60.543,81.572 18.22,39.283 29.941,27.542 72.271,69.85 "/> <rect x="9" y="99.575" width="103" height="17"/> <rect x="5.5" y="68.576" width="17" height="48"/> <rect x="97.5" y="68.576" width="17" height="48"/></svg>' +
-        '<a href="' + config.homeserver + '/_matrix/media/r0/thumbnail/' + myServerName + '/' + myMediaId + '" target="_blank">Download <span class="matrix-live-filename"></span></a>' +
+        '<a href="' + config.homeserver + '/_matrix/media/r0/download/' + myServerName + '/' + myMediaId + '" target="_blank">Download <span class="matrix-live-filename"></span> (' + formatBytes(matrixEvent.content.info.size) + ') </a>' +
         '</div>' +
         '<div class="matrix-live-entry-author"></div>' +
         '<div class="matrix-live-entry-time">' + (new Date(matrixEvent.origin_server_ts)).toLocaleTimeString() + '</div>' +
@@ -184,7 +204,7 @@ $( document ).ready(function() {
       );
 
       // We set filename using text method to avoid XSS
-      newEntry.children('.matrix-live-filename').text(matrixEvent.content.body);
+      newEntry.find('.matrix-live-filename').text(matrixEvent.content.body);
 
 
       // We set author using text method to avoid XSS
