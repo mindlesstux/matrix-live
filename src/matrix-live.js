@@ -167,7 +167,7 @@ $( document ).ready(function() {
       newEntry = $(
         '<div class="matrix-live-entry' + (isUpdate ? ' matrix-live-new' : '') + '" matrix-event-id="' + matrixEvent.event_id.replace(/[^a-zA-Z0-9:\-\._!$%+=]/g, '') + '">' +
         '<div class="matrix-live-entry-video">' +
-          '<video src="' + config.homeserver + '/_matrix/media/r0/download/' + myServerName + '/' + myMediaId + '" poster="' + config.homeserver + '/_matrix/media/r0/thumbnail/' + thumbnailServerName + '/' + thumbnailMediaId + '" controls>' +
+          '<video src="' + config.homeserver + '/_matrix/media/r0/download/' + myServerName + '/' + myMediaId + '" poster="' + config.homeserver + '/_matrix/media/v1/download/' + thumbnailServerName + '/' + thumbnailMediaId + '" controls>' +
           ' [ <a href="' + config.homeserver + '/_matrix/media/r0/download/' + myServerName + '/' + myMediaId + '" target="_blank">Play Video</a> ]' +
           '</video>' +
         '</div>' +
