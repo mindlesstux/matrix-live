@@ -2,7 +2,7 @@
 
 ## Changes in v0.1.4 (2017-03-31)
 
-- Bugfix: Invites messed up display names (issue #1)
+- Bugfix: Invites messed up display names (argit/matrix-live#1)
 - Don't display empty display names, use MXID instead
 - demo2.html should use relative links
 
