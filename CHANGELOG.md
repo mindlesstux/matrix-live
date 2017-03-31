@@ -1,5 +1,12 @@
 # Changelog for Matrix Live
 
+## Changes in v0.1.4 (2017-03-31)
+
+- Bugfix: Invites messed up display names (issue #1)
+- Don't display empty display names, use MXID instead
+- demo2.html should use relative links
+
+
 ## Changes in v0.1.3 (2016-12-17)
 
 - Critial fix: New synapse releases expect a valid JSON body for register?kind=guest requests, which made guest registration fail on matrix.org homeserver

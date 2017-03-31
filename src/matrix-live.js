@@ -115,7 +115,7 @@ $( document ).ready(function() {
       );
 
       // We set author using text method to avoid XSS
-      newEntry.children('.matrix-live-entry-author').text(roomMembers[matrixEvent.sender] === undefined ? matrixEvent.sender : roomMembers[matrixEvent.sender]);
+      newEntry.children('.matrix-live-entry-author').text(roomMembers[matrixEvent.sender] == undefined || roomMembers[matrixEvent.sender] == ''  ? matrixEvent.sender : roomMembers[matrixEvent.sender]);
 
       // Ok, append entry.
       mLiveBody.prepend(newEntry);
@@ -146,7 +146,7 @@ $( document ).ready(function() {
       );
 
       // We set author using text method to avoid XSS
-      newEntry.children('.matrix-live-entry-author').text(roomMembers[matrixEvent.sender] === undefined ? matrixEvent.sender : roomMembers[matrixEvent.sender]);
+      newEntry.children('.matrix-live-entry-author').text(roomMembers[matrixEvent.sender] == undefined || roomMembers[matrixEvent.sender] == '' ? matrixEvent.sender : roomMembers[matrixEvent.sender]);
 
       mLiveBody.prepend(newEntry);
 
@@ -177,7 +177,7 @@ $( document ).ready(function() {
       );
 
       // We set author using text method to avoid XSS
-      newEntry.children('.matrix-live-entry-author').text(roomMembers[matrixEvent.sender] === undefined ? matrixEvent.sender : roomMembers[matrixEvent.sender]);
+      newEntry.children('.matrix-live-entry-author').text(roomMembers[matrixEvent.sender] == undefined || roomMembers[matrixEvent.sender] == '' ? matrixEvent.sender : roomMembers[matrixEvent.sender]);
 
       mLiveBody.prepend(newEntry);
 
@@ -208,7 +208,7 @@ $( document ).ready(function() {
 
 
       // We set author using text method to avoid XSS
-      newEntry.children('.matrix-live-entry-author').text(roomMembers[matrixEvent.sender] === undefined ? matrixEvent.sender : roomMembers[matrixEvent.sender]);
+      newEntry.children('.matrix-live-entry-author').text(roomMembers[matrixEvent.sender] == undefined || roomMembers[matrixEvent.sender] == '' ? matrixEvent.sender : roomMembers[matrixEvent.sender]);
 
       mLiveBody.prepend(newEntry);
 
@@ -260,7 +260,7 @@ $( document ).ready(function() {
           } else {
             // Process all members (to obtain display names)
             res.state.forEach(function(state) {
-              if(state.type === 'm.room.member' && state.content && state.content.displayname !== undefined) {
+              if(state.type === 'm.room.member' && state.membership === 'join' && state.content && state.content.displayname !== undefined) {
                 roomMembers[state.user_id] = state.content.displayname;
               }
             });
