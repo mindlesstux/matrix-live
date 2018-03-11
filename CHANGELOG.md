@@ -1,5 +1,9 @@
 # Changelog for Matrix Live
 
+## Changes in v0.1.5 (2018-03-04)
+
+- Support for m.audio messages, which will be displayed as inline HTML5 audio player (thanks, greenjon)
+
 ## Changes in v0.1.4 (2017-03-31)
 
 - Bugfix: Invites messed up display names (argit/matrix-live#1)

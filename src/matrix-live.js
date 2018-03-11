@@ -181,6 +181,33 @@ $( document ).ready(function() {
 
       mLiveBody.prepend(newEntry);
 
+    } else if(matrixEvent.type === 'm.room.message' && matrixEvent.content && matrixEvent.content.msgtype === 'm.audio') {
+      // Is the audio valid? We need an audio URL. Otherwise return.
+      if(match = matrixEvent.content.url.match(/^mxc:\/\/([a-zA-Z0-9\.\-]+)\/([0-9a-zA-Z]+)$/i)) {
+        myServerName = match[1];
+        myMediaId = match[2];
+      } else {
+        return;
+      }
+      
+      // Ok, display HTML5 audio
+      newEntry = $(
+        '<div class="matrix-live-entry' + (isUpdate ? ' matrix-live-new' : '') + '" matrix-event-id="' + matrixEvent.event_id.replace(/[^a-zA-Z0-9:\-\._!$%+=]/g, '') + '">' +
+        '<div class="matrix-live-entry-video">' +
+          '<audio src="' + config.homeserver + '/_matrix/media/r0/download/' + myServerName + '/' + myMediaId + '" controls>' +
+          ' [ <a href="' + config.homeserver + '/_matrix/media/r0/download/' + myServerName + '/' + myMediaId + '" target="_blank">Play Audio</a> ]' +
+          '</audio>' +
+        '</div>' +
+        '<div class="matrix-live-entry-author"></div>' +
+        '<div class="matrix-live-entry-time">' + (new Date(matrixEvent.origin_server_ts)).toLocaleTimeString() + '</div>' +
+        '</div>'
+      );
+
+      // We set author using text method to avoid XSS
+      newEntry.children('.matrix-live-entry-author').text(roomMembers[matrixEvent.sender] == undefined || roomMembers[matrixEvent.sender] == '' ? matrixEvent.sender : roomMembers[matrixEvent.sender]);
+
+      mLiveBody.prepend(newEntry);
+      
     } else if(matrixEvent.type === 'm.room.message' && matrixEvent.content && matrixEvent.content.msgtype === 'm.file') {
 
       // Is the file URL valid? Otherwise return.
